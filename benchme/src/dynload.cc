@@ -1,12 +1,11 @@
-#include "dynload.hh"
+#include "benchme.hh"
 
 //Return a vector of function to be
 //benchmarked
 
-std::vector<std::function<void(void)>>
-load_functions(std::vector<std::string> libs)
+func_lib_vector load_functions(std::vector<std::string> libs)
 {
-  std::vector<std::function<void(void)>> res;
+  func_lib_vector res;
   for (std::string lib : libs)
   {
     //Dynamically load library
@@ -28,7 +27,7 @@ load_functions(std::vector<std::string> libs)
     }
     typedef void(*funcptr) (void);
     auto func = reinterpret_cast<funcptr>(symbol);
-    res.push_back(std::function<void(void)>(func));
+    res.push_back(std::make_pair<>(std::function<void(void)>(func), lib));
   }
   return res;
 }

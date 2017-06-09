@@ -1,5 +1,5 @@
-#include "timer.hh"
-#include "dynload.hh"
+#include "boost/program_options.hpp"
+#include "benchme.hh"
 
 int main(int argc, char **argv)
 {
@@ -7,13 +7,6 @@ int main(int argc, char **argv)
   for (auto i = 1; i < argc; i++)
     in.push_back(std::string(argv[i]));
   auto funcs = load_functions(in);
-  for(const auto& func : funcs)
-  {
-    double time = 0;
-    {
-      auto timer = scope_timer(time);
-      func();
-    }
-    std::cout << "Run in " << time << std::endl;
-  }
+  auto tests = runner(funcs);
+  display_result(tests);
 }
