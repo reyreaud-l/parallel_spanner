@@ -1,9 +1,19 @@
-#include "dumy.hh"
+#include "timer.hh"
 #include "dynload.hh"
 
-int main(void)
+int main(int argc, char **argv)
 {
-  auto funcs = load_functions(std::vector<std::string>{ "./libbenchme_test.so" });
+  std::vector<std::string> in;
+  for (auto i = 1; i < argc; i++)
+    in.push_back(std::string(argv[i]));
+  auto funcs = load_functions(in);
   for(const auto& func : funcs)
-    func();
-} 
+  {
+    double time = 0;
+    {
+      auto timer = scope_timer(time);
+      func();
+    }
+    std::cout << "Run in " << time << std::endl;
+  }
+}
