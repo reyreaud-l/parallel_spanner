@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 set(BENCHME_NAME benchme)
 set(${BENCHME_NAME} CXX)
+cmake_policy(SET CMP0042 NEW)
 
 #CXX
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -std=c++14 -pedantic")
