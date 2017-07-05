@@ -23,7 +23,7 @@ add_library(${BENCHME_NAME}_test_short SHARED ${CMAKE_CURRENT_SOURCE_DIR}/test/s
 add_library(${BENCHME_NAME}_test_long SHARED ${CMAKE_CURRENT_SOURCE_DIR}/test/long.cc)
 
 add_custom_target(
-  check
+  benchme_check
   DEPENDS
   ${BENCHME_NAME}
   ${BENCHME_NAME}_test_short
