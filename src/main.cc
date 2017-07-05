@@ -30,11 +30,12 @@ int main(int argc, char **argv)
     std::cout << "Node: x -> " << data.x
       << "\n      y -> " << data.y << std::endl;
   }
-  mygraph.generate_pairs();
-  auto data = mygraph.pairs_get();
+  mygraph.generate_tuples();
+  auto data = mygraph.tuples_get();
   for (auto it = data.begin(); it != data.end(); it++)
   {
-    std::cout << mygraph[it->first] << " -- " << mygraph[it->second] << std::endl;
+    std::cout << mygraph[std::get<0>(*it)] << " -- "
+      << mygraph[std::get<1>(*it)] << std::endl;
   }
   std::cout << mygraph;
   return 0;
