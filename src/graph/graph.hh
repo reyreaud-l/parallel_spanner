@@ -7,10 +7,22 @@
 #include <vector>
 #include <string>
 
-struct empty {};
+struct vertice
+{
+  public:
+    int x;
+    int y;
+};
+
+struct edge
+{
+  public:
+    double cost;
+};
+
 using name_prop_type = boost::property<boost::graph_name_t, std::string>;
 
-template <typename VertexLabel = empty, typename EdgeLabel = empty>
+template <typename VertexLabel = vertice, typename EdgeLabel = edge>
 class Graph : public boost::adjacency_list<boost::setS, boost::vecS,
   boost::bidirectionalS, VertexLabel, EdgeLabel, name_prop_type>
 {

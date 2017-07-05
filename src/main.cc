@@ -1,16 +1,9 @@
 #include <iostream>
 #include "graph.hh"
 
-struct vertice
-{
-  public:
-    int x;
-    int y;
-};
-
 int main(void)
 {
-  auto mygraph = Graph<vertice>();
+  auto mygraph = Graph<>();
   for(int i = 0; i < 10; i++)
   {
     auto vertice = boost::add_vertex(mygraph);
