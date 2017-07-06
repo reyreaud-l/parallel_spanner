@@ -78,7 +78,7 @@ class Graph : public boost::adjacency_list<boost::setS, boost::vecS,
   friend std::ostream& operator<<(std::ostream& ostr, const Graph& mygraph)
   {
      ostr << "graph \"Geometric spanner\" {" << std::endl
-          << "\tnode [shape=box];" << std::endl;
+          << "\tnode [shape=point];" << std::endl;
      auto it = boost::vertices(mygraph);
      for (;it.first != it.second; it.first++)
      {

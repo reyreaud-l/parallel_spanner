@@ -9,14 +9,10 @@ void simple_greedy(Graph<>& graph, float t)
   for (const auto& tuple : tuples)
   {
      auto d = shortest_distance(graph, std::get<0>(tuple), std::get<1>(tuple));
-     std::cout << std::endl << "Current: " << i << ", Target: " << tuples.size() << std::endl;
-     std::cout << graph[std::get<0>(tuple)] << std::endl;
-     std::cout << graph[std::get<1>(tuple)] << std::endl;
-     std::cout << "Dist: " << std::get<2>(tuple) << std::endl;
-     std::cout << "Dijkstra Dist: " << d << std::endl;
+     if (i % 1000 == 0)
+      std::cout << "Current: " << i / 1000 << ", Target: " << tuples.size() / 1000 << std::endl;
      if (d > t * std::get<2>(tuple))
      {
-        std::cout << "Added\n";
         boost::add_edge(std::get<0>(tuple), std::get<1>(tuple), graph);
      }
      i++;
@@ -45,7 +41,6 @@ std::map<Graph<>::vertex_descriptor, double>
 dijkstra(Graph<>& graph, Graph<>::vertex_descriptor src,
          Graph<>::vertex_descriptor dest)
 {
-  (void)dest;
    std::map<Graph<>::vertex_descriptor, double> dist_map;
    dist_map[src] = 0;
 
@@ -69,11 +64,11 @@ dijkstra(Graph<>& graph, Graph<>::vertex_descriptor src,
       auto vertice = pqueue.top().first;
       pqueue.pop();
       if (worked.find(pair) != worked.end())
-      {
-        std::cout << "skip\n";
         continue;
-      }
       worked.emplace(pair);
+
+      if (dest == vertice)
+        break;
 
       for (auto it = boost::adjacent_vertices(vertice, graph);
            it.first != it.second; it.first++)

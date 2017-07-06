@@ -17,6 +17,6 @@ for item in data:
         continue
     x = int(earth_radius * math.cos(lon) * math.sin(lat))
     y = -1 * int(earth_radius * math.sin(lat) * math.sin(lon))
-    file.write(item["city"] + "," + str(x) + "," + str(y) + "\n")
+    file.write(item["city"]+item["state"] + "," + str(x) + "," + str(y) + "\n")
 
 file.close()
