@@ -12,4 +12,5 @@ double pythagore(Graph<>& graph,
                  Graph<>::vertex_descriptor src,
                  Graph<>::vertex_descriptor dest);
 std::map<Graph<>::vertex_descriptor, double>
-dijkstra(Graph<>& graph, Graph<>::vertex_descriptor src);
+dijkstra(Graph<>& graph, Graph<>::vertex_descriptor src,
+         Graph<>::vertex_descriptor dest);

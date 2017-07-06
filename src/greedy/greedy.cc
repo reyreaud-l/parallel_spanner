@@ -23,7 +23,7 @@ double shortest_distance(Graph<>& graph,
                          Graph<>::vertex_descriptor src,
                          Graph<>::vertex_descriptor dest)
 {
-   return dijkstra(graph, src)[dest];
+   return dijkstra(graph, src, dest)[dest];
 }
 
 double pythagore(Graph<>& graph,
@@ -38,7 +38,8 @@ double pythagore(Graph<>& graph,
 }
 
 std::map<Graph<>::vertex_descriptor, double>
-dijkstra(Graph<>& graph, Graph<>::vertex_descriptor src)
+dijkstra(Graph<>& graph, Graph<>::vertex_descriptor src,
+         Graph<>::vertex_descriptor dest)
 {
    std::map<Graph<>::vertex_descriptor, double> dist_map;
    dist_map[src] = 0;
@@ -61,7 +62,9 @@ dijkstra(Graph<>& graph, Graph<>::vertex_descriptor src)
       auto vertice = pqueue.top().first;
       pqueue.pop();
 
-      // FIXME: Stop when target found (add a parameter)
+      if (vertice == dest)
+         break;
+
       for (auto it = boost::adjacent_vertices(vertice, graph);
            it.first != it.second; ++it.first)
       {

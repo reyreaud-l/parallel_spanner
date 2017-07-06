@@ -24,7 +24,7 @@ int main(int argc, char **argv)
   }
 */
    mygraph.generate_tuples();
-   simple_greedy(mygraph, std::atoi(argv[2]));
+   simple_greedy(mygraph, std::atof(argv[2]));
    std::ofstream out_file("result.gv");
    out_file << mygraph;
    return 0;
