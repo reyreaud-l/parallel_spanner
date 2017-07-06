@@ -2,6 +2,7 @@
 #include <cmath>
 #include "graph/graph.hh"
 #include <iostream>
+#include <unordered_set>
 #include <queue>
 
 void simple_greedy(Graph<>&, float);

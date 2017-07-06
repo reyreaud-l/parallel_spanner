@@ -13,13 +13,13 @@
 struct vertice
 {
   public:
-    int x;
-    int y;
+    long long int x;
+    long long int y;
     std::string name;
  private:
     friend std::ostream& operator<<(std::ostream& ostr_, vertice& v)
     {
-      ostr_ << "x: " << v.x << " y: " << v.y;
+      ostr_ << v.name << " x: " << v.x << " y: " << v.y;
       return ostr_;
     }
 };

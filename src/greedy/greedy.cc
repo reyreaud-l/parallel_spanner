@@ -8,13 +8,19 @@ void simple_greedy(Graph<>& graph, float t)
   std::size_t i = 0;
   for (const auto& tuple : tuples)
   {
-     if (i % 1000 == 0)
-        std::cout << "Current: " << i / 1000 << ", Target: " << tuples.size() / 1000 << std::endl;
      auto d = shortest_distance(graph, std::get<0>(tuple), std::get<1>(tuple));
+     std::cout << std::endl << "Current: " << i << ", Target: " << tuples.size() << std::endl;
+     std::cout << graph[std::get<0>(tuple)] << std::endl;
+     std::cout << graph[std::get<1>(tuple)] << std::endl;
+     std::cout << "Dist: " << std::get<2>(tuple) << std::endl;
+     std::cout << "Dijkstra Dist: " << d << std::endl;
      if (d > t * std::get<2>(tuple))
      {
+        std::cout << "Added\n";
         boost::add_edge(std::get<0>(tuple), std::get<1>(tuple), graph);
      }
+     if (i == 19)
+       break;
      i++;
   }
 }
@@ -41,6 +47,7 @@ std::map<Graph<>::vertex_descriptor, double>
 dijkstra(Graph<>& graph, Graph<>::vertex_descriptor src,
          Graph<>::vertex_descriptor dest)
 {
+  (void)dest;
    std::map<Graph<>::vertex_descriptor, double> dist_map;
    dist_map[src] = 0;
 
@@ -50,23 +57,28 @@ dijkstra(Graph<>& graph, Graph<>::vertex_descriptor src,
    };
    std::priority_queue<prio_pair, std::vector<prio_pair>,
                        decltype(cmp)> pqueue(cmp);
+   std::set<prio_pair> worked;
    for (auto it = boost::vertices(graph); it.first != it.second; ++it.first)
    {
       if (*it.first != src)
          dist_map[*it.first] = INT_MAX;
-      pqueue.emplace(*it.first, dist_map[*it.first]);
    }
+   pqueue.emplace(src, 0);
 
    while (!pqueue.empty())
    {
+      auto pair = pqueue.top();
       auto vertice = pqueue.top().first;
       pqueue.pop();
-
-      if (vertice == dest)
-         break;
+      if (worked.find(pair) != worked.end())
+      {
+        std::cout << "skip\n";
+        continue;
+      }
+      worked.emplace(pair);
 
       for (auto it = boost::adjacent_vertices(vertice, graph);
-           it.first != it.second; ++it.first)
+           it.first != it.second; it.first++)
       {
          auto alt = dist_map[vertice] + pythagore(graph, vertice, *it.first);
          if (alt < dist_map[*it.first])
