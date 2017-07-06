@@ -20,6 +20,7 @@ set(PROJECT_INCLUDE src/)
 include_directories(${PROJECT_INCLUDE})
 file(GLOB PROJECT_SRC_FILES
   ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/loader/*.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/src/graph/*.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/src/greedy/*.cc
 )

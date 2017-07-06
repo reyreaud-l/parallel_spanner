@@ -15,7 +15,8 @@ struct vertice
   public:
     int x;
     int y;
-  private:
+    std::string name;
+ private:
     friend std::ostream& operator<<(std::ostream& ostr_, vertice& v)
     {
       ostr_ << "x: " << v.x << " y: " << v.y;
