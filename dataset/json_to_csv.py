@@ -16,7 +16,7 @@ for item in data:
     except:
         continue
     x = int(earth_radius * math.cos(lon) * math.sin(lat))
-    y = int(earth_radius * math.sin(lat) * math.sin(lon))
+    y = -1 * int(earth_radius * math.sin(lat) * math.sin(lon))
     file.write(item["city"] + "," + str(x) + "," + str(y) + "\n")
 
 file.close()

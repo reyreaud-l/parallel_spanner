@@ -93,8 +93,9 @@ class Graph : public boost::adjacency_list<boost::setS, boost::vecS,
      {
         auto src = mygraph[boost::source(*it2.first, mygraph)];
         auto dst = mygraph[boost::target(*it2.first, mygraph)];
-        ostr <<  src.name << " -- " << dst.name << std::endl;
+        ostr << "\"" <<  src.name << "\" -- \"" << dst.name << "\"" << std::endl;
      }
+     ostr << "}\n";
      return ostr;
   }
 };
