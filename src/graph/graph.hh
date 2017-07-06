@@ -75,10 +75,26 @@ class Graph : public boost::adjacency_list<boost::setS, boost::vecS,
   private:
   tuples_vector tuples_;
 
-  friend std::ostream& operator<<(std::ostream& ostr_, const Graph& p)
+  friend std::ostream& operator<<(std::ostream& ostr, const Graph& mygraph)
   {
-    (void)p;
-    ostr_ << "lol\n";
-    return ostr_;
+     ostr << "graph \"Geometric spanner\" {" << std::endl
+          << "\tnode [shape=box];" << std::endl;
+     auto it = boost::vertices(mygraph);
+     for (;it.first != it.second; it.first++)
+     {
+        auto vertice = *it.first;
+        auto data = mygraph[vertice];
+        ostr << "\t\"" << data.name << "\" [label=\"" << data.name
+             << "\" pos=\"" << data.x << "," << data.y << "!\"]" << std::endl;
+     }
+
+     auto it2 = boost::edges(mygraph);
+     for (;it2.first != it2.second; it2.first++)
+     {
+        auto src = mygraph[boost::source(*it2.first, mygraph)];
+        auto dst = mygraph[boost::target(*it2.first, mygraph)];
+        ostr <<  src.name << " -- " << dst.name << std::endl;
+     }
+     return ostr;
   }
 };
