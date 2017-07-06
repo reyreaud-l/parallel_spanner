@@ -34,11 +34,11 @@ using name_prop_type = boost::property<boost::graph_name_t, std::string>;
 
 template <typename VertexLabel = vertice, typename EdgeLabel = edge>
 class Graph : public boost::adjacency_list<boost::setS, boost::vecS,
-  boost::bidirectionalS, VertexLabel, EdgeLabel, name_prop_type>
+  boost::undirectedS, VertexLabel, EdgeLabel, name_prop_type>
 {
   public:
   using super_type = boost::adjacency_list<boost::setS, boost::vecS,
-    boost::bidirectionalS, VertexLabel, EdgeLabel, name_prop_type>;
+    boost::undirectedS, VertexLabel, EdgeLabel, name_prop_type>;
   using vertex_descriptor = typename super_type::vertex_descriptor;
   using tuple = std::tuple<vertex_descriptor, vertex_descriptor, double>;
   using tuples_vector = std::vector<tuple>;

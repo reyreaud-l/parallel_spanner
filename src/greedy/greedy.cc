@@ -19,8 +19,6 @@ void simple_greedy(Graph<>& graph, float t)
         std::cout << "Added\n";
         boost::add_edge(std::get<0>(tuple), std::get<1>(tuple), graph);
      }
-     if (i == 19)
-       break;
      i++;
   }
 }
