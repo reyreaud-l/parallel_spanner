@@ -14,11 +14,11 @@ Graph<> Loader::Load(std::string filename)
       std::istringstream line_stream;
       std::string curr_string;
       line_stream.str(line);
-      std::getline(line_stream, curr_string);
+      std::getline(line_stream, curr_string, ',');
       data.name = curr_string;
-      std::getline(line_stream, curr_string);
+      std::getline(line_stream, curr_string, ',');
       data.x = std::stoi(curr_string);
-      std::getline(line_stream, curr_string);
+      std::getline(line_stream, curr_string, ',');
       data.y = std::stoi(curr_string);
    }
    in.close();

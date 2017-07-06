@@ -7,7 +7,7 @@ import sys
 data = json.load(open(sys.argv[1]))
 out = []
 earth_radius = 6371
-file = open("out.dot", "w")
+file = open("out.csv", "w")
 
 for item in data:
     try:

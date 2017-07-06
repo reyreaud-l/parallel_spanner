@@ -7,5 +7,5 @@
 class Loader
 {
 public:
-   Graph<> Load(std::string name);
+   static Graph<> Load(std::string name);
 };
