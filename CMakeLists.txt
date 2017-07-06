@@ -3,7 +3,11 @@ cmake_minimum_required(VERSION 2.8)
 add_subdirectory(${CMAKE_SOURCE_DIR}/benchme/)
 
 #PRPA
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/)
 find_package(Boost COMPONENTS graph REQUIRED)
+find_package(TBB)
+include_directories(${TBB_INCLUDE_DIRS})
+add_definitions(${TBB_DEFINITIONS})
 include_directories(${Boost_INCLUDE_DIR})
 
 set(PROJECT_NAME prpa)
@@ -26,7 +30,9 @@ file(GLOB PROJECT_SRC_FILES
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SRC_FILES})
-target_link_libraries(${PROJECT_NAME} ${Boost_PROGRAM_OPTIONS_LIBRARY})
+target_link_libraries(${PROJECT_NAME}
+  ${Boost_PROGRAM_OPTIONS_LIBRARY}
+  ${TBB_LIBRARIES})
 
 add_custom_target(
   run

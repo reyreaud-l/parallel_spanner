@@ -1,3 +1,4 @@
+#include "tbb/tbb.h"
 #include "greedy/greedy.hh"
 
 
@@ -70,16 +71,21 @@ dijkstra(Graph<>& graph, Graph<>::vertex_descriptor src,
       if (dest == vertice)
         break;
 
-      for (auto it = boost::adjacent_vertices(vertice, graph);
-           it.first != it.second; it.first++)
-      {
-         auto alt = dist_map[vertice] + pythagore(graph, vertice, *it.first);
-         if (alt < dist_map[*it.first])
-         {
-            dist_map[*it.first] = alt;
-            pqueue.emplace(*it.first, alt);
-         }
-      }
+      auto it = boost::adjacent_vertices(vertice, graph);
+      std::vector<decltype(*it.first)> adj_vec;
+      for (;it.first != it.second; it.first++)
+        adj_vec.push_back(*it.first);
+
+      tbb::parallel_for((size_t)0, adj_vec.size(),
+          [&graph, &vertice, &pqueue, &dist_map](auto it)
+          {
+            auto alt = dist_map[vertice] + pythagore(graph, vertice, it);
+            if (alt < dist_map[it])
+            {
+              dist_map[it] = alt;
+              pqueue.emplace(it, alt);
+            }
+          });
    }
 
    return dist_map;
