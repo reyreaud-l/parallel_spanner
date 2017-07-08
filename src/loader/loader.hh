@@ -2,10 +2,12 @@
 
 #include <iostream>
 #include <fstream>
+#include "spanner/rectangle.hh"
 #include "graph/graph.hh"
 
 class Loader
 {
 public:
-   static Graph<> Load(std::string name);
+   static Graph<> load_graph(std::string name);
+   static std::vector<Point> load_point(std::string name);
 };
