@@ -1,5 +1,5 @@
 #include "tbb/tbb.h"
-#include "greedy/greedy.hh"
+#include "spanner/spanner.hh"
 
 
 void simple_greedy(Graph<>& graph, float t)

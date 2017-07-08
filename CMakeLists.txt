@@ -26,7 +26,7 @@ file(GLOB PROJECT_SRC_FILES
   ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/src/loader/*.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/src/graph/*.cc
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/greedy/*.cc
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/spanner/*.cc
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SRC_FILES})

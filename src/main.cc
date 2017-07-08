@@ -1,5 +1,5 @@
 #include <iostream>
-#include "greedy/greedy.hh"
+#include "spanner/spanner.hh"
 #include "loader/loader.hh"
 #include "graph/graph.hh"
 
