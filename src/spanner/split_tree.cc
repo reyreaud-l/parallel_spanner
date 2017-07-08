@@ -42,14 +42,14 @@ std::vector<std::shared_ptr<Node>> Node::get_all_nodes()
 
 SplitTree::SplitTree(std::vector<Point> points, Rectangle rectangle)
 {
-  root = std::make_shared<Node>(calc_tree(points, rectangle));
+  root = calc_tree(points, rectangle);
 }
 
-Node SplitTree::calc_tree(std::vector<Point> points, Rectangle rectangle)
+std::shared_ptr<Node> SplitTree::calc_tree(std::vector<Point> points, Rectangle rectangle)
 {
   Rectangle bounding_box(points);
   if (points.size() == 1)
-    return Node(bounding_box, points); 
+    return std::make_shared<Node>(Node(bounding_box, points));
   bool i = bounding_box.get_dim_max_length();
   Line split_line = bounding_box.split_line_get(i);
   auto box_pair = rectangle.split(split_line);
@@ -61,16 +61,13 @@ Node SplitTree::calc_tree(std::vector<Point> points, Rectangle rectangle)
   {
     if (r1.contains(point))
       s1.push_back(point);
-    else
+    else if (r2.contains(point))
       s2.push_back(point);
   }
 
   auto left = calc_tree(s1, r1);
   auto right = calc_tree(s2, r2);
-  return Node(std::make_shared<Node>(left),
-              std::make_shared<Node>(right),
-              bounding_box,
-              points);
+  return std::make_shared<Node>(Node(left, right, bounding_box, points));
 }
 
 std::vector<std::shared_ptr<Node>> SplitTree::get_all_nodes()
@@ -82,4 +79,75 @@ std::vector<std::shared_ptr<Node>> SplitTree::get_all_nodes()
              std::make_move_iterator(son.begin()),
              std::make_move_iterator(son.end()));
   return res;
+}
+
+std::vector<std::pair<std::vector<Point>, std::vector<Point>>>
+wspd_decomposition(SplitTree tree, double s)
+{
+  std::vector<std::pair<std::vector<Point>, std::vector<Point>>> res;
+  for (auto node : tree.get_all_nodes())
+  {
+    if (node->left == nullptr || node->right == nullptr)
+      continue;
+    auto tmp = find_pairs(*(node->left), *(node->right), s);
+    res.insert(res.end(),
+              std::make_move_iterator(tmp.begin()),
+              std::make_move_iterator(tmp.end()));
+  }
+  return res;
+}
+
+bool is_well_separated(Node left, Node right, double s)
+{
+  auto radius_l = left.bounding_box.get_radius();
+  auto radius_r = right.bounding_box.get_radius();
+  auto center_l = left.bounding_box.get_center();
+  auto center_r = right.bounding_box.get_center();
+
+  double dist = center_l.distance(center_r) - (radius_l + radius_r);
+
+  return dist >= s * std::max(radius_l, radius_r);
+}
+
+std::vector<std::pair<std::vector<Point>, std::vector<Point>>>
+find_pairs(Node left, Node right, double s)
+{
+  using vec_pair = std::vector<std::pair<std::vector<Point>, std::vector<Point>>>;
+  if (is_well_separated(left, right, s))
+  {
+    auto pair = std::pair<std::vector<Point>, std::vector<Point>>({left.points, right.points});
+    return std::vector<decltype(pair)>({pair});
+  }
+  vec_pair pairs;
+  if (left.bounding_box.get_max_length() <= right.bounding_box.get_max_length())
+  {
+    auto left_l = left.left;
+    auto left_r = left.right;
+
+    auto r1 = find_pairs(left, *left_l, s);
+    pairs.insert(pairs.end(),
+                std::make_move_iterator(r1.begin()),
+                std::make_move_iterator(r1.end()));
+
+    r1 = find_pairs(left, *left_r, s);
+    pairs.insert(pairs.end(),
+                std::make_move_iterator(r1.begin()),
+                std::make_move_iterator(r1.end()));
+  }
+  else
+  {
+    auto right_l = right.left;
+    auto right_r = right.right;
+
+    auto r1 = find_pairs(right, *right_l, s);
+    pairs.insert(pairs.end(),
+                std::make_move_iterator(r1.begin()),
+                std::make_move_iterator(r1.end()));
+
+    r1 = find_pairs(right, *right_r, s);
+    pairs.insert(pairs.end(),
+                std::make_move_iterator(r1.begin()),
+                std::make_move_iterator(r1.end()));
+  }
+  return pairs;
 }

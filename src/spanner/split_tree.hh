@@ -25,8 +25,14 @@ class SplitTree
 {
   public:
   SplitTree(std::vector<Point>, Rectangle);
-  Node calc_tree(std::vector<Point>, Rectangle);
+  std::shared_ptr<Node> calc_tree(std::vector<Point>, Rectangle);
 
   std::vector<std::shared_ptr<Node>> get_all_nodes();
   std::shared_ptr<Node> root;
 };
+
+std::vector<std::pair<std::vector<Point>, std::vector<Point>>>
+wspd_decomposition(SplitTree tree, double s);
+
+std::vector<std::pair<std::vector<Point>, std::vector<Point>>>
+find_pairs(Node left, Node right, double s);

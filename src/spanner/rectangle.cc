@@ -2,17 +2,17 @@
 
 Rectangle::Rectangle(std::vector<Point> points)
 {
-  double left_bound = INT_MIN;
-  double right_bound = INT_MAX;
-  double bottom_bound = INT_MIN;
-  double top_bound = INT_MAX;
+  double left_bound = INT_MAX;
+  double right_bound = INT_MIN;
+  double bottom_bound = INT_MAX;
+  double top_bound = INT_MIN;
 
   for (Point point : points)
   {
     left_bound = std::min(point.x, left_bound);
     bottom_bound = std::min(point.y, bottom_bound);
     right_bound = std::max(point.x, right_bound);
-    top_bound = std::max(point.x, top_bound);
+    top_bound = std::max(point.y, top_bound);
   }
 
   top_left = Point(left_bound, top_bound);
@@ -24,7 +24,7 @@ Rectangle::Rectangle(std::vector<Point> points)
 bool Rectangle::contains(Point point)
 {
   return top_left.x <= point.x && point.x <= top_right.x
-    && bottom_left.y <= point.y && point.y <= bottom_right.y;
+    && bottom_left.y <= point.y && point.y <= top_left.y;
 }
 
 bool Rectangle::get_dim_max_length()
@@ -38,7 +38,7 @@ Line Rectangle::split_line_get(bool horizontal)
     return Line(Point(top_left.x, (top_left.y + bottom_left.y) / 2),
                 Point(top_right.x, (top_left.y + bottom_left.y) / 2),
                 horizontal);
-  return Line(Point((top_left.x + top_right.x / 2), top_left.y),
+  return Line(Point((top_left.x + top_right.x) / 2, top_left.y),
               Point((bottom_left.x + bottom_right.x) / 2, bottom_left.y),
               horizontal);
 }
@@ -66,4 +66,9 @@ std::pair<Rectangle, Rectangle> Rectangle::split(Line split_line)
                 top_right,
                 bottom_right);
   return std::make_pair<>(left, right);
+}
+
+double Rectangle::get_max_length()
+{
+  return std::max((top_right.x - top_left.x), (top_left.y - bottom_left.y));
 }

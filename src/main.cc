@@ -17,7 +17,7 @@ void launch_wspd(char **argv)
 {
   auto points = Loader::load_point(argv[1]);
   auto tree = SplitTree(points, Rectangle(points)); 
-  std::cout << tree.get_all_nodes().size() << std::endl;
+  auto wspd = wspd_decomposition(tree, std::atof(argv[2]));
 }
 
 int main(int argc, char **argv)
