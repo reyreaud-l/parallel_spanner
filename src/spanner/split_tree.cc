@@ -52,6 +52,9 @@ std::shared_ptr<Node> SplitTree::calc_tree(std::vector<Point> points, Rectangle 
     return std::make_shared<Node>(Node(bounding_box, points));
   bool i = bounding_box.get_dim_max_length();
   Line split_line = bounding_box.split_line_get(i);
+  std::cout << "\n\n";
+  std::cout << "Bounding box:\n" << bounding_box << std::endl;
+  std::cout << "Split Line:\n" << split_line << std::endl;
   auto box_pair = rectangle.split(split_line);
   auto r1 = box_pair.first;
   auto r2 = box_pair.second;
@@ -65,6 +68,8 @@ std::shared_ptr<Node> SplitTree::calc_tree(std::vector<Point> points, Rectangle 
       s2.push_back(point);
   }
 
+  std::cout << "Left:\n" << r1 << std::endl;
+  std::cout << "Right:\n" << r2 << std::endl;
   auto left = calc_tree(s1, r1);
   auto right = calc_tree(s2, r2);
   return std::make_shared<Node>(Node(left, right, bounding_box, points));

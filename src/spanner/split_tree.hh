@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <iterator>
+#include <iostream>
 #include "rectangle.hh"
 
 class Node

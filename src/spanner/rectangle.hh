@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <cmath>
+#include <iostream>
 #include <climits>
 
 
@@ -23,6 +24,12 @@ class Point
   {
     return std::sqrt(std::pow(v.x - x, 2) + std::pow(v.y - y, 2));
   }
+
+  friend std::ostream& operator<<(std::ostream& ostr_, Point& v)
+  {
+    ostr_ << "x: " << v.x << " y: " << v.y;
+    return ostr_;
+  }
   double x;
   double y;
 };
@@ -36,6 +43,12 @@ class Line
   , dst(d)
   , horizontal(dir)
   {}
+
+  friend std::ostream& operator<<(std::ostream& ostr_, Line& v)
+  {
+    ostr_ << "\tSrc " << v.src << "\n\tDst " << v.dst;
+    return ostr_;
+  }
 
   Point src;
   Point dst;
@@ -68,6 +81,15 @@ class Rectangle
   double get_radius()
   {
     return bottom_left.distance(top_right);
+  }
+
+  friend std::ostream& operator<<(std::ostream& ostr_, Rectangle& v)
+  {
+    ostr_ << "\ttop_left: " << v.top_left << std::endl;
+    ostr_ << "\ttop_right: " << v.top_right << std::endl;
+    ostr_ << "\tbottom_left: " << v.bottom_left << std::endl;
+    ostr_ << "\tbottom_right: " << v.bottom_right;
+    return ostr_;
   }
 
   Point top_left;
