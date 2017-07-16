@@ -4,6 +4,7 @@
 #include <iostream>
 #include <unordered_set>
 #include <queue>
+#include "global.hh"
 
 void simple_greedy(Graph<>&, float);
 double shortest_distance(Graph<>& graph,

@@ -1,6 +1,5 @@
 #include "spanner/spanner.hh"
 
-
 void simple_greedy(Graph<>& graph, float t)
 {
   //tuples are already sorted when generated in graph
@@ -9,7 +8,7 @@ void simple_greedy(Graph<>& graph, float t)
   for (const auto& tuple : tuples)
   {
      auto d = shortest_distance(graph, std::get<0>(tuple), std::get<1>(tuple));
-     if (i % 1000 == 0)
+     if (i % 1000 == 0 && global::trace_debug)
       std::cout << "Current: " << i / 1000 << ", Target: " << tuples.size() / 1000 << std::endl;
      if (d > t * std::get<2>(tuple))
      {

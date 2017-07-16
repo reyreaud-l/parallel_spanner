@@ -4,7 +4,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/benchme/)
 
 #PRPA
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/)
-find_package(Boost COMPONENTS graph REQUIRED)
+find_package(Boost COMPONENTS graph program_options REQUIRED)
 find_package(TBB)
 include_directories(${TBB_INCLUDE_DIRS})
 add_definitions(${TBB_DEFINITIONS})
