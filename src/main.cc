@@ -15,16 +15,32 @@ void launch_greedy(char **argv)
 
 void launch_wspd(char **argv)
 {
-  auto points = Loader::load_point(argv[1]);
+  auto pair_res = Loader::load_point(argv[1]);
+  auto points = pair_res.first;
+  auto mygraph = pair_res.second;
   auto tree = SplitTree(points, Rectangle(points)); 
-  auto wspd = wspd_decomposition(tree, std::atof(argv[2]));
+  auto wspd = wspd_decomposition(tree, std::atof(argv[2] - 1));
+  std::cout << "================================\n";
+  std::cout << "WSPD Run:\n";
+  std::cout << "\tNodes:\t" << tree.get_all_nodes().size() << std::endl;
+  std::cout << "\tPairs:\t" << wspd.size() << std::endl;
+  std::cout << "================================\n";
+  for (auto pair : wspd)
+  {
+    auto left = pair.first;
+    auto right = pair.second;
+    boost::add_edge(left[rand() % left.size()].vertice,
+        right[rand() % right.size()].vertice, mygraph);
+  }
+  std::ofstream out_file("result.gv");
+  out_file << mygraph;
 }
 
 int main(int argc, char **argv)
 {
   if (argc < 2)
   {
-    std::cout << "Usage: [t] [input_file]\n With input file being"
+    std::cout << "Usage: [input_file] [t]\n With input file being"
               << "a csv file name,x,y";
     return 1;
   }

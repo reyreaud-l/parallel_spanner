@@ -21,7 +21,7 @@ Node::Node(std::shared_ptr<Node> l, std::shared_ptr<Node> r, Rectangle rec,
 std::vector<std::shared_ptr<Node>> Node::get_all_nodes()
 {
   std::vector<std::shared_ptr<Node>> res;
-  if (left)
+  if (left && left->right != nullptr && left->left != nullptr)
   {
     res.push_back(left);
     auto son = left->get_all_nodes();
@@ -29,7 +29,7 @@ std::vector<std::shared_ptr<Node>> Node::get_all_nodes()
                std::make_move_iterator(son.begin()),
                std::make_move_iterator(son.end()));
   }
-  if (right)
+  if (right && right->left != nullptr && right->right != nullptr)
   {
     res.push_back(right);
     auto son = right->get_all_nodes();
@@ -126,30 +126,34 @@ find_pairs(Node left, Node right, double s)
   vec_pair pairs;
   if (left.bounding_box.get_max_length() <= right.bounding_box.get_max_length())
   {
-    auto left_l = left.left;
-    auto left_r = left.right;
+    if (!right.left || !right.right)
+      return pairs;
+    auto right_l = right.left;
+    auto right_r = right.right;
 
-    auto r1 = find_pairs(left, *left_l, s);
+    auto r1 = find_pairs(left, *right_l, s);
     pairs.insert(pairs.end(),
                 std::make_move_iterator(r1.begin()),
                 std::make_move_iterator(r1.end()));
 
-    r1 = find_pairs(left, *left_r, s);
+    r1 = find_pairs(left, *right_r, s);
     pairs.insert(pairs.end(),
                 std::make_move_iterator(r1.begin()),
                 std::make_move_iterator(r1.end()));
   }
   else
   {
-    auto right_l = right.left;
-    auto right_r = right.right;
+    if (!left.left || !left.right)
+      return pairs;
+    auto left_l = left.left;
+    auto left_r = left.right;
 
-    auto r1 = find_pairs(right, *right_l, s);
+    auto r1 = find_pairs(*left_l, right, s);
     pairs.insert(pairs.end(),
                 std::make_move_iterator(r1.begin()),
                 std::make_move_iterator(r1.end()));
 
-    r1 = find_pairs(right, *right_r, s);
+    r1 = find_pairs(*left_r, right, s);
     pairs.insert(pairs.end(),
                 std::make_move_iterator(r1.begin()),
                 std::make_move_iterator(r1.end()));

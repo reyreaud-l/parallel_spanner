@@ -3,6 +3,7 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include <string>
 #include <climits>
 
 
@@ -10,9 +11,11 @@ class Point
 {
   public:
   Point() {}
-  Point(double x, double y)
+  Point(double x, double y, int vertice = 0, std::string name = "ABORT_MISSION")
   : x(x)
   , y(y)
+  , vertice(vertice)
+  , name(name)
   {}
 
   bool operator==(const Point& r)
@@ -32,6 +35,8 @@ class Point
   }
   double x;
   double y;
+  int vertice;
+  std::string name;
 };
 
 class Line
@@ -80,7 +85,7 @@ class Rectangle
 
   double get_radius()
   {
-    return bottom_left.distance(top_right);
+    return bottom_left.distance(top_right) / 2;
   }
 
   friend std::ostream& operator<<(std::ostream& ostr_, Rectangle& v)
