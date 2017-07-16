@@ -9,14 +9,19 @@ out = []
 earth_radius = 6371
 file = open("out.csv", "w")
 
+i = 0
 for item in data:
     try:
-        lat = float(item["latitude"]) * math.pi / 180
-        lon = float(item["longitude"]) * math.pi / 180
+        arr = item["ll"].split(',')
+        lat = float(arr[0]) #* math.pi / 180
+        lon = float(arr[1]) #* math.pi / 180
     except:
         continue
     x = int(earth_radius * math.cos(lon) * math.sin(lat))
-    y = -1 * int(earth_radius * math.sin(lat) * math.sin(lon))
-    file.write(item["city"]+item["state"] + "," + str(x) + "," + str(y) + "\n")
+    y = int(earth_radius * math.sin(lat) * math.sin(lon))
+    file.write(''.join(item["city"].split(',')) + "," + str(x) + "," + str(y) + "\n")
+    i += 1
+    if i == 1000:
+        break;
 
 file.close()

@@ -15,7 +15,7 @@ set(${PROJECT_NAME} CXX)
 cmake_policy(SET CMP0042 NEW)
 
 #CXX
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -std=c++14 -pedantic -g3")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -std=c++14 -pedantic -O3")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 #INCLUDE
@@ -35,9 +35,17 @@ target_link_libraries(${PROJECT_NAME}
   ${TBB_LIBRARIES})
 
 add_custom_target(
-  run
+  greedy
   DEPENDS
   ${PROJECT_NAME}
   COMMAND
-  ./${PROJECT_NAME}
+  ./${PROJECT_NAME} --greedy --data ../dataset/us_cities.csv --t 1.5 --trace
+)
+
+add_custom_target(
+  wspd
+  DEPENDS
+  ${PROJECT_NAME}
+  COMMAND
+  ./${PROJECT_NAME} --wspd --data ../dataset/us_cities.csv --t 1.5 --trace
 )
