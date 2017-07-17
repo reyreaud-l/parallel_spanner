@@ -20,6 +20,15 @@ void launch_greedy(std::string file, double t)
   out_file << mygraph;
 }
 
+void launch_par_greedy(std::string file, double t)
+{
+  auto mygraph = Loader::load_graph(file);
+  mygraph.generate_tuples();
+  parallel_greedy(mygraph, t);
+  std::ofstream out_file("result.gv");
+  out_file << mygraph;
+}
+
 void launch_wspd(std::string file, double t)
 {
   auto pair_res = Loader::load_point(file);
@@ -74,7 +83,7 @@ int main(int argc, char **argv)
     if (vm.count("greedy"))
     {
       if (parallel)
-        std::cerr << "Not implemented\n";
+         launch_par_greedy(vm["data"].as<std::string>(), vm["t"].as<double>());
       else
         launch_greedy(vm["data"].as<std::string>(), vm["t"].as<double>());
     }
