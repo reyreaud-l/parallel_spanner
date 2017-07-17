@@ -42,12 +42,14 @@ class Graph : public boost::adjacency_list<boost::setS, boost::vecS,
   using vertex_descriptor = typename super_type::vertex_descriptor;
   using tuple = std::tuple<vertex_descriptor, vertex_descriptor, double>;
   using tuples_vector = std::vector<tuple>;
+   size_t number_nodes = 0;
 
   void generate_tuples()
   {
     tuples_.clear();
     for(auto it = boost::vertices(*this); it.first != it.second; ++it.first)
     {
+       number_nodes++;
       for (auto it2 = it; it2.first != it2.second; ++it2.first)
       {
         if (*it.first == *it2.first)

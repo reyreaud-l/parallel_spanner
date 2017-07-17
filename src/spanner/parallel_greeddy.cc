@@ -50,14 +50,14 @@ void shortpath()
             if (alt < dist_vec[*it.first])
             {
                dist_vec[*it.first] = alt;
-               new_real = alt + pythagore(*graph_, *it.first, dest_);
+               new_real = alt;
                real_distance[*it.first] = new_real;
                push = true;
             }
          }
          if (push)
          {
-            pqueue.push(std::make_pair(*it.first, new_real));
+            pqueue.push(std::make_pair(*it.first, alt));
             size_t n_spawn = ++num_spawn;
             if (n_spawn < max_spawn)
             {
@@ -75,11 +75,13 @@ double
 parallel_shortpath(Graph<>& graph, Graph<>::vertex_descriptor src,
                   Graph<>::vertex_descriptor dest)
 {
-   locks = new tbb::spin_mutex[75];
+   locks = new tbb::spin_mutex[graph.number_nodes];
    graph_ = &graph;
    src_ = src;
    dest_ = dest;
    sp_group = new tbb::task_group;
+   dist_vec.resize(graph.number_nodes);
+   real_distance.resize(graph.number_nodes);
    dist_vec[src] = 0.0;
    real_distance[src] = pythagore(graph, src, dest);
 //   std::vector<bool> worked;
