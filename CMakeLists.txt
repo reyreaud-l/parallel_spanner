@@ -15,7 +15,7 @@ set(${PROJECT_NAME} CXX)
 cmake_policy(SET CMP0042 NEW)
 
 #CXX
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -std=c++14 -pedantic -O3")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -std=c++14 -pedantic -g3")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 #INCLUDE

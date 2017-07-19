@@ -21,16 +21,16 @@ std::vector<double> real_distance;
 tbb::concurrent_priority_queue<prio_pair, prio_compare> pqueue;
 tbb::spin_mutex *locks;
 tbb::task_group *sp_group;
-tbb::atomic<size_t> num_spawn;
+tbb::atomic<size_t> num_spawn = 16;
 
 void shortpath()
 {
    prio_pair vertx;
-   while (!pqueue.try_pop(vertx))
+   while (pqueue.try_pop(vertx))
    {
       Graph<>::vertex_descriptor vertice = vertx.first;
-      if (vertice == src_)
-         continue;;
+      if (vertice == dest_)
+         continue;
       double f = vertx.second;
       double old_g_u = 0.0;
       {
@@ -50,21 +50,20 @@ void shortpath()
             if (alt < dist_vec[*it.first])
             {
                dist_vec[*it.first] = alt;
-               new_real = alt;
+               new_real = alt + pythagore(*graph_, *it.first, dest_);
                real_distance[*it.first] = new_real;
                push = true;
             }
          }
          if (push)
          {
-            pqueue.push(std::make_pair(*it.first, alt));
-            size_t n_spawn = ++num_spawn;
+            pqueue.push(std::make_pair(*it.first, new_real));
+            size_t n_spawn = num_spawn + 1;
             if (n_spawn < max_spawn)
             {
+               num_spawn++;
                sp_group->run([]{ shortpath(); });
             }
-            else
-               --num_spawn;
          }
       }
    }
@@ -80,12 +79,19 @@ parallel_shortpath(Graph<>& graph, Graph<>::vertex_descriptor src,
    src_ = src;
    dest_ = dest;
    sp_group = new tbb::task_group;
+   real_distance.clear();
+   real_distance.clear();
    dist_vec.resize(graph.number_nodes);
    real_distance.resize(graph.number_nodes);
+   for (auto it = boost::vertices(graph); it.first != it.second; ++it.first)
+   {
+      if (*it.first != src)
+         dist_vec[*it.first] = INT_MAX;
+   }
    dist_vec[src] = 0.0;
    real_distance[src] = pythagore(graph, src, dest);
 //   std::vector<bool> worked;
-
+   num_spawn = 1;
    pqueue.push(std::make_pair(src, real_distance[src]));
    sp_group->run([](){ shortpath(); });
    sp_group->wait();
