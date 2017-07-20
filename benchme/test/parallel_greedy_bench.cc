@@ -6,8 +6,8 @@ extern float g_t;
 
 extern "C"
 {
-  void benchme(void)
-  {
+void benchme(void)
+{
    if (g_file == "")
    {
       std::cout << "File not set\n";
@@ -19,5 +19,5 @@ extern "C"
       return;
    }
    launch_par_greedy(g_file, g_t);
-  }
+}
 }

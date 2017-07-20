@@ -15,13 +15,13 @@ public:
 Graph<> *graph_;
 Graph<>::vertex_descriptor dest_;
 Graph<>::vertex_descriptor src_;
-size_t max_spawn;
+size_t max_spawn = 17;
 std::vector<double> dist_vec;
 std::vector<double> real_distance;
 tbb::concurrent_priority_queue<prio_pair, prio_compare> pqueue;
 tbb::spin_mutex *locks;
 tbb::task_group *sp_group;
-tbb::atomic<size_t> num_spawn = 16;
+tbb::atomic<size_t> num_spawn = 0;
 
 void shortpath()
 {

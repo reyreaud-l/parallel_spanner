@@ -1,6 +1,5 @@
 #include "benchme.hh"
 
-
 std::vector<Test> runner(func_lib_vector funcs)
 {
   std::vector<Test> res;
@@ -23,6 +22,7 @@ void Test::run()
   auto timer = scope_timer(time_);
   sub_();
 }
+
 
 void display_result(std::vector<Test> tests)
 {

@@ -5,6 +5,7 @@
 #include <functional>
 #include <vector>
 #include <chrono>
+#include <thread>
 
 using func_lib_vector = std::vector<std::pair<std::function<void(void)>, std::string>>;
 
@@ -37,6 +38,7 @@ class Test
     double time_get() { return time_; }
     std::string name_get() const { return name_; }
     double time_get() const { return time_; }
+    std::thread *local_thread = nullptr;
 
   private:
     std::function<void(void)> sub_;

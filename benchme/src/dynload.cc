@@ -25,6 +25,11 @@ func_lib_vector load_functions(std::vector<std::string> libs)
       dlclose(handler);
       continue;
     }
+    else
+    {
+       std::cerr << "Symbol \"benchme\" in "
+                 << lib << " has been loaded" << std::endl;
+    }
     typedef void(*funcptr) (void);
     auto func = reinterpret_cast<funcptr>(symbol);
     res.push_back(std::make_pair<>(std::function<void(void)>(func), lib));

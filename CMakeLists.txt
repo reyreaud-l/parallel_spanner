@@ -15,7 +15,7 @@ set(${PROJECT_NAME} CXX)
 cmake_policy(SET CMP0042 NEW)
 
 #CXX
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -std=c++14 -pedantic -g3")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -std=c++14 -pedantic -O3")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 #INCLUDE
@@ -23,14 +23,18 @@ set(PROJECT_INCLUDE src/)
 
 include_directories(${PROJECT_INCLUDE})
 file(GLOB PROJECT_SRC_FILES
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/src/loader/*.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/src/graph/*.cc
   ${CMAKE_CURRENT_SOURCE_DIR}/src/spanner/*.cc
 )
 
-add_executable(${PROJECT_NAME} ${PROJECT_SRC_FILES})
+add_library(_${PROJECT_NAME} SHARED ${PROJECT_SRC_FILES})
+add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cc)
+
 target_link_libraries(${PROJECT_NAME}
+  _${PROJECT_NAME})
+
+target_link_libraries(_${PROJECT_NAME}
   ${Boost_PROGRAM_OPTIONS_LIBRARY}
   ${TBB_LIBRARIES})
 
